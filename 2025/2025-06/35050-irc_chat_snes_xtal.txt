@@ -1,0 +1,181 @@
+
+
+    KiwiIRC
+
+        EFNet
+        11
+        #messdev
+
+MAMEdev (and MESSdev) chat | http://www.mamedev.org - http://mess.org | 0.162 | https://github.com/mamedev/mame
+→ FSanches has joined
+ⓘ MAMEdev (and MESSdev) chat | http://www.mamedev.org - http://mess.org | 0.162 | https://github.com/mamedev/mame
+FSanches
+I have a SNES console. I opened it and noticed that it uses a 21.453666 MHz XTAL
+I looked up the src/mess/drivers/snec.c driver source and it specifies a cpu clock value of MCLK_NTSC
+which is defined as (21477272) /* verified */
+at emu/video/snes_ppu.h
+which is not the same value I see in my pcb
+@Lord_Nigh
+is your snes PAL or ntsc?
+FSanches
+any idea why ?
+@Lord_Nigh
+the xtal si different for pal and ntsc
+i think?
+FSanches
+I don't know
+anyway, shouldn't we support both ?
+Oliveira
+that's NTSC ftequencyx6
+@Lord_Nigh
+it could be a difference between NTSC and PAL-M
+← mixmaster has quit (Ping timeout: 240 seconds)
+Oliveira
+PAL SNES uses PAL clock x4
+there's a trick at it where it uses a special clock chip
+FSanches
+my PCB is labeled (c)1993 Nintendo SNS-CPU- GPM-02
+Oliveira
+so it generates some clock that is near to 21Mhz for the main chips but still get the 4.3Mhz it need for PAL color
+@Lord_Nigh
+21.453666mhz xtal seems to be an unusual xtal used in brazil? snes ONLY, i'm guessing because brazil uses not-quite-standard ntsc speed
+@DFJustin
+ntsc and pal clocks are both in snes_ppu.h, could be brazil is on a third one though
+@Lord_Nigh
+i've never even heard of it until now
+Oliveira
+Only Brazil use that clock since that's PAL-M clock x6
+@Lord_Nigh
+i see it on google
+@DFJustin
+#define MCLK_NTSC (21477272) /* verified */
+#define MCLK_PAL (21218370) /* verified */
+Oliveira
+3.575611Mhz
+← edgbla has quit (Ping timeout: 265 seconds)
+FSanches
+are we expected to document this in the snes.c driver ?
+@DFJustin
+yeah sounds like something that should be added
+have another clone "snespalm"
+or "snesbr"
+← anewuser has quit (Ping timeout: 240 seconds)
+@DFJustin
+there are probably other ppu differences you'd have to account for though
+Oliveira
+https://warosu.org/data/vr/img/0015/60/1398062929504.jpg
+there's nothing as both use the same chips
+it's a jumper :)
+see that S-CLK chip ?
+Oliveira
+it takes that 17MHz clock source and I believe it uses some clock synthesis circuit to reach that 21.218370 frequency
+prescaller is it ?
+→ edgbla has joined
+← Bodhi has quit (Leaving)
+← edgbla has quit (Read error: Operation timed out)
+→ edgbla has joined
+→ abelenki2 has joined
+← abelenki has quit (Ping timeout: 258 seconds)
+@Lord_Nigh
+Oliveira: for the brazil snes i assume they use the 21.453666 MHz XTAL in place of the 21.477272 MHz XTAL and don't use any sort of funky clock divider stuff at all, they may use an accessory chip to turn slightly-too-fast-ntsc or s-video or rgb color into pal-m though
+i.e. it doesn't have the funky clock synthesis chip that the pal snes has
+so brazil snes plays slightly faster than the ntsc one does.
+*HEY!*
+this may have a significant effect for speedrunning!
+lemme go ask
+→ mixmaster has joined
+mixmaster
+http://seclists.org/nmap-dev/2015/q2/194
+→ anewuser has joined
+← Shoegazr has quit (Read error: Operation timed out)
+← mixmaster has quit (Quit: Page closed)
+→ mixmaster has joined
+Oliveira
+On SNES they just toggle the NTPAL pin of the S-RGB chip to PAL position
+and use the 21.453666Mhz crystal
+NES it's another story because you can't make a NTSC PPU output PAL video so it's as you said
+ⓘ abelenki2 is now known as abelenki
+→ DonCatoli has joined
+→ cuavas has joined
+ⓘ B2K24 set mode +o cuavas
+mixmaster
+funny how ReCAPTCHA's last resort is street sign pictures
+its always like that for me
+← MetalliC has quit
+← tiredtom has quit (Ping timeout: 306 seconds)
+← Seru-kun has quit
+→ Shoegazr has joined
+69 Users
+
+    @B2K24
+    @balrog
+    @Bletch
+    @cuavas
+    @DFJustin
+    @duke_
+    @ElBarto
+    @hap
+    @Judge_
+    @kevtris
+    @Lord_Nigh
+    @mahlemiut
+    @MooglyGuy
+    @NekoEd
+    @newuzer
+    @Robert
+    @RobertXP
+    @Sarayan
+    @Stiletto
+    @Tafoid
+    @Tournique
+    +oddi2
+    +system11_
+    +trap15_
+    abelenki
+    anewuser
+    bencoh
+    brizzo
+    bubsy
+    Conjurer
+    conradev
+    dantarion
+    Dead_Body
+    debrouxl
+    Despatche
+    DonCatoli
+    drxx
+    dtm
+    edgbla
+    espes__
+    FSanches
+    geekboy
+    Happy__
+    jerry2600
+    jrra
+    lewellyn
+    mixmaster
+    neobrain
+    nitro2k01
+    nogagplz1
+    Oliveira
+    Pasky
+    pisto
+    Professor
+    qeed
+    Quarryman
+    r0ni
+    radius
+    ramiro_
+    Shoegazr
+    SketchCow
+    smoke_fum
+    Sonny_Jim
+    Sophira
+    stealthii
+    tjcarter
+    TwoglyGuy
+    Unkn0wn
+    wareya
+
+FSanches
+
